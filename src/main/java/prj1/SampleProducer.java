@@ -13,12 +13,15 @@ public class SampleProducer {
         properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
+        KafkaProducer kafkaProducer =
+                new KafkaProducer(properties);
 
-        ProducerRecord producerRecord = new ProducerRecord("channel", "name", "Hello World");
-
-        KafkaProducer kafkaProducer = new KafkaProducer(properties);
-
-        kafkaProducer.send(producerRecord);
+        for (int i = 0; i < 10 ; i++) {
+            ProducerRecord producerRecord =
+                    new ProducerRecord("channel", "key_" + i, "Message_" + i);
+            kafkaProducer.send(producerRecord);
+        }
+        kafkaProducer.flush();
         kafkaProducer.close();
     }
 }

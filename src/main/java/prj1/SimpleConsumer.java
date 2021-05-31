@@ -23,8 +23,8 @@ public class SimpleConsumer {
                 "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer",
                 "org.apache.kafka.common.serialization.StringDeserializer");
-        KafkaConsumer<String, String> consumer = new KafkaConsumer
-                <String, String>(props);
+        KafkaConsumer<String, String> consumer =
+                new KafkaConsumer<String, String>(props);
 
 
         consumer.subscribe(Arrays.asList(topicName));
