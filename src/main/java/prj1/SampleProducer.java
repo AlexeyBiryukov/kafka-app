@@ -6,7 +6,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import java.util.Properties;
 
 public class SampleProducer {
-    public SampleProducer() {
+         public SampleProducer() {
 
         Properties properties = new Properties();
         properties.put("bootstrap.servers", "localhost:9092");

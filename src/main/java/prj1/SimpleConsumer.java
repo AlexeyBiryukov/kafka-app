@@ -26,7 +26,6 @@ public class SimpleConsumer {
         KafkaConsumer<String, String> consumer =
                 new KafkaConsumer<String, String>(props);
 
-
         consumer.subscribe(Arrays.asList(topicName));
 
         System.out.println("Subscribed to topic " + topicName);
