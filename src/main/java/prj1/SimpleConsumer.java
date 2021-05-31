@@ -11,7 +11,7 @@ import java.util.Properties;
 public class SimpleConsumer {
     public static void main(String[] args) throws Exception {
 
-        String topicName = "simple-topic";
+        String topicName = "channel";
         Properties props = new Properties();
 
         props.put("bootstrap.servers", "localhost:9092");
