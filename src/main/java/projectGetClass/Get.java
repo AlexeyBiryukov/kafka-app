@@ -30,7 +30,7 @@ public class Get {
                      new KafkaProducer<Long, String>(properties)) {
             int i = 0;
             while (true) {
-                long key = ID;
+                long key = ID + i;
                 String message = "Message : " + i;
 
                 ProducerRecord<Long, String> record =
