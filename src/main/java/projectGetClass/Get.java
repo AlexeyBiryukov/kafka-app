@@ -52,8 +52,6 @@ public class Get {
         properties.put("group.id", "test#1");
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.LongDeserializer");
         properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-//        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,LongSerializer.class.getName());
-//        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
 
         try (KafkaConsumer<Long, String> consumer =
                      new KafkaConsumer<Long, String>(properties)) {
@@ -61,15 +59,14 @@ public class Get {
 
             while (true) {
                 ConsumerRecords<Long, String> records = consumer.poll(100);
-                int i = 0;
                 for (ConsumerRecord<Long, String> record: records) {
-                    long key = record.key() + i;
+                    long key = record.key();
                     String message = record.value();
 
                     System.out.println("\n\nConsumer received : ");
                     System.out.println("--------------------");
                     System.out.println("ID : " + key);
-                    System.out.println("Message : " + message);
+                    System.out.println(message);
                 }
             }
         }
