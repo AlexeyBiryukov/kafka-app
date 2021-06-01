@@ -63,10 +63,10 @@ public class Get {
                 ConsumerRecords<Long, String> records = consumer.poll(100);
                 int i = 0;
                 for (ConsumerRecord<Long, String> record: records) {
-                    long key = record.key();
+                    long key = record.key() + i;
                     String message = record.value();
 
-                    System.out.println("Consumer received : ");
+                    System.out.println("\n\nConsumer received : ");
                     System.out.println("--------------------");
                     System.out.println("ID : " + key);
                     System.out.println("Message : " + message);
