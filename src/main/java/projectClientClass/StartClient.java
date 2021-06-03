@@ -4,7 +4,7 @@ import projectGetClass.Get;
 
 public class StartClient {
     public static void main(String[] args) throws InterruptedException {
-        Get start = new Get();
+        Client start = new Client();
 
         Thread t1 = new Thread() {
             public void run() {
