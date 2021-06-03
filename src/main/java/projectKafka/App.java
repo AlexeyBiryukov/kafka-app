@@ -2,19 +2,19 @@ package projectKafka;
 
 public class App {
     public static void main(String[] args) {
-        Get startGet = new Get();
-        Client startClient = new Client();
+        Get startG = new Get();
+        Client startC = new Client();
 
         Thread t1Get = new Thread() {
             public void run() {
-                startGet.StartResponse();
+                startG.StartResponse();
             }
         };
 
         Thread t2Get = new Thread() {
             public void run() {
                 try {
-                    startGet.StartRequest();
+                    startG.StartRequest();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -23,19 +23,23 @@ public class App {
 
         Thread t3Client = new Thread() {
             public void run() {
-                startClient.StartResponse();
+                startC.StartResponse();
             }
         };
 
         Thread t4Client = new Thread() {
             public void run() {
                 try {
-                    startClient.StartRequest();
+                    startC.StartRequest();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         };
 
+        t1Get.start();
+        t2Get.start();
+        t3Client.start();
+        t4Client.start();
     }
 }
