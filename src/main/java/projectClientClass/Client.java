@@ -18,7 +18,7 @@ public class Client {
     String topicRequest = "request";
     String topicResponse= "response";
     long ID;
-    String name;
+    String NAME;
 
     public void StartResponse() {
         Properties properties = new Properties();
@@ -30,7 +30,7 @@ public class Client {
 
         try (KafkaConsumer<Long, String> consumer =
                      new KafkaConsumer<Long, String>(properties)) {
-            consumer.subscribe(Arrays.asList(topicResponse));
+            consumer.subscribe(Arrays.asList(topicRequest));
 
             while (true) {
                 ConsumerRecords<Long, String> records = consumer.poll(100);
@@ -58,11 +58,11 @@ public class Client {
                      new KafkaProducer<Long, String>(properties)) {
             int i = 0;
             while (true) {
-                long key = ID + i;
-                String message = "Message : " + i;
+                long id = ID + i;
+                NAME = "Message : " + i;
 
                 ProducerRecord<Long, String> record =
-                        new ProducerRecord<Long, String>(topicRequest, key, message);
+                        new ProducerRecord<Long, String>(topicResponse, id, NAME);
 
                 producer.send(record);
                 TimeUnit.SECONDS.sleep(5);
