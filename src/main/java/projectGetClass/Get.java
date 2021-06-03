@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Get {
     String hostName = "localhost:9092";
     String topicRequest = "request";
+    String topicResponse = "response";
     long ID;
 
     public void StartRequest() throws InterruptedException {
@@ -30,11 +31,11 @@ public class Get {
                      new KafkaProducer<Long, String>(properties)) {
             int i = 0;
             while (true) {
-                long key = ID + i;
+                long id = ID + i;
                 String message = "Message : " + i;
 
                 ProducerRecord<Long, String> record =
-                        new ProducerRecord<Long, String>(topicRequest, key, message);
+                        new ProducerRecord<Long, String>(topicRequest, id, message);
 
                 producer.send(record);
                 TimeUnit.SECONDS.sleep(5);
@@ -55,7 +56,7 @@ public class Get {
 
         try (KafkaConsumer<Long, String> consumer =
                      new KafkaConsumer<Long, String>(properties)) {
-            consumer.subscribe(Arrays.asList(topicRequest));
+            consumer.subscribe(Arrays.asList(topicResponse));
 
             while (true) {
                 ConsumerRecords<Long, String> records = consumer.poll(100);
