@@ -1,6 +1,5 @@
-package projectGetClass;
+package projectKafka;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -14,11 +13,39 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-public class Get {
+public class Client {
     String hostName = "localhost:9092";
     String topicRequest = "request";
-    String topicResponse = "response";
+    String topicResponse= "response";
     long ID;
+    String NAME;
+
+    public void StartResponse() {
+        Properties properties = new Properties();
+
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, hostName);
+        properties.put("group.id", "test#1");
+        properties.put("key.deserializer", "org.apache.kafka.common.serialization.LongDeserializer");
+        properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+
+        try (KafkaConsumer<Long, String> consumer =
+                     new KafkaConsumer<Long, String>(properties)) {
+            consumer.subscribe(Arrays.asList(topicRequest));
+
+            while (true) {
+                ConsumerRecords<Long, String> records = consumer.poll(100);
+                for (ConsumerRecord<Long, String> record: records) {
+                    long key = record.key();
+                    String message = record.value();
+
+                    System.out.println("\n\nConsumer received : ");
+                    System.out.println("--------------------");
+                    System.out.println("ID : " + key);
+                    System.out.println(message);
+                }
+            }
+        }
+    }
 
     public void StartRequest() throws InterruptedException {
         Properties properties = new Properties();
@@ -32,43 +59,16 @@ public class Get {
             int i = 0;
             while (true) {
                 long id = ID + i;
-                String message = "Message : " + i;
+                NAME = "Message : " + i;
 
                 ProducerRecord<Long, String> record =
-                        new ProducerRecord<Long, String>(topicRequest, id, message);
+                        new ProducerRecord<Long, String>(topicResponse, id, NAME);
 
                 producer.send(record);
                 TimeUnit.SECONDS.sleep(5);
                 i++;
 
                 producer.flush();
-            }
-        }
-    }
-
-    public void StartResponse() {
-        Properties properties = new Properties();
-
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, hostName);
-        properties.put("group.id", "test#1");
-        properties.put("key.deserializer", "org.apache.kafka.common.serialization.LongDeserializer");
-        properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-
-        try (KafkaConsumer<Long, String> consumer =
-                     new KafkaConsumer<Long, String>(properties)) {
-            consumer.subscribe(Arrays.asList(topicResponse));
-
-            while (true) {
-                ConsumerRecords<Long, String> records = consumer.poll(100);
-                for (ConsumerRecord<Long, String> record: records) {
-                    long key = record.key();
-                    String message = record.value();
-
-                    System.out.println("\n\nConsumer received : ");
-                    System.out.println("--------------------");
-                    System.out.println("ID : " + key);
-                    System.out.println(message);
-                }
             }
         }
     }

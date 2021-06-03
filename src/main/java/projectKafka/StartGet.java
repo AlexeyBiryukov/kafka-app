@@ -1,4 +1,4 @@
-package projectGetClass;
+package projectKafka;
 
 public class StartGet {
     public static void main(String[] args) throws InterruptedException {

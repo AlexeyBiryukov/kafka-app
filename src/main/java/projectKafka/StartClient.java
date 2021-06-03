@@ -1,6 +1,4 @@
-package projectClientClass;
-
-import projectGetClass.Get;
+package projectKafka;
 
 public class StartClient {
     public static void main(String[] args) throws InterruptedException {
